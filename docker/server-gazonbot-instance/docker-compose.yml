@@ -1,0 +1,65 @@
+version: '3'
+services:
+  webserver:
+    image: 
+      nginx:alpine
+    restart: 
+      always
+    tty: 
+      true
+    ports:
+      - "$WEBSERVER_PORT:80"
+    networks:
+      - net
+    volumes:
+      - ../../frontend:/var/www/html
+
+  pg_db:
+    image: 
+      postgres
+    restart: 
+      always
+    environment:
+      - POSTGRES_PASSWORD=$DB_PASS
+      - POSTGRES_USER=$DB_USER
+      - POSTGRES_DB=$DB_NAME
+    volumes:
+      - ../../pg_project:/var/lib/postgresql/data
+    ports:
+      - $DB_PORT:5432
+    networks:
+      net:
+
+  pgmyadmin:
+    image: 
+      dpage/pgadmin4 
+    ports:
+      - "$PGADMIN_PORT:80"
+    environment:
+      PGADMIN_DEFAULT_PASSWORD: $PGADMIN_PASSWORD
+      PGADMIN_DEFAULT_EMAIL: $PGADMIN_EMAIL
+    networks:
+      net:
+
+  flask:
+    build: 
+      context: ../..
+      dockerfile: ./docker/server-gazonbot-instance/dockerfiles/flask.Dockerfile
+    volumes: 
+      - ../../flask/:/usr/src/app/
+    ports: 
+      - "$FLASK_PORT:80"
+    environment: 
+      PORT: 82
+      FLASK_DEBUG: 1
+    networks:
+      net:
+
+networks:
+  net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        -
+          subnet: $NETWORK
