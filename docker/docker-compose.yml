@@ -37,6 +37,20 @@ services:
     networks:
       net:
 
+  flask:
+    build: 
+      context: ..
+      dockerfile: ./docker/flask.Dockerfile
+    volumes: 
+      - ../flask/:/usr/src/app/
+    ports: 
+      - "82:80"
+    environment: 
+      PORT: 82
+      FLASK_DEBUG: 1
+    networks:
+      net:
+
 networks:
   net:
     driver: bridge
