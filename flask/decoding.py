@@ -2,7 +2,7 @@ decoding(int1):
 	lis1 = []
 	int2 = 0
 	lis2 = []
-	for i in range(0, len(int1)):
+	for i in range(len(int1)):
     	if int1[i] == '0':
         	lis1.append(0)
     	elif int1[i] == '1':
