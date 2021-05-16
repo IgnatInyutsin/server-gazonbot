@@ -1,10 +1,10 @@
-decoding(int1):
+def decoding(int1):
 	lis1 = []
 	int2 = 0
 	lis2 = []
 	for i in range(len(int1)):
-    	if int1[i] == '0':
-        	lis1.append(0)
+        if int1[i] == '0':
+            lis1.append(0)
     	elif int1[i] == '1':
         	lis1.append(1)
     	elif int1[i] == '2':
